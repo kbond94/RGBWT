@@ -1,86 +1,73 @@
 from global_land_mask import globe
 import numpy as np
 
-LatMax =  55.37210             
-LatMin =  51.45317               
-LatDiff = LatMax - LatMin      
-LatInc = (LatDiff) / 33        
-LonMax = -5.46974          
-LonMin = -10.08949          
-LonDiff = LonMax - LonMin       
-LonInc = (LonDiff) / 17
-Latf = LatMax
-Lonf = LonMin;
+
+def genMap(LaMa, LaMi, LoMa, LoMi):
+    LatMax =  LaMa             
+    LatMin =  LaMi               
+    LatDiff = LatMax - LatMin      
+    LatInc = (LatDiff) / 33        
+    LonMax = LoMa          
+    LonMin = LoMi          
+    LonDiff = LonMax - LonMin       
+    LonInc = (LonDiff) / 17
+    Latf = LatMax
+    Lonf = LonMin;
 
 
-lat = np.array([0.0]*32)
-lon = np.array([0.0]*16)
+    lat = np.array([0.0]*32)
+    lon = np.array([0.0]*16)
 
-for i in range(32):
-      Latf = Latf - LatInc
-      Lat = str(round(Latf, 5))
-      lat[i] = Lat
+    for i in range(32):
+        Latf = Latf - LatInc
+        Lat = str(round(Latf, 5))
+        lat[i] = Lat
 
-for o in range (16):
-    Lonf = Lonf + LonInc;
-    Lon = str(round(Lonf, 5));
-    lon[o] = Lon
+    for o in range (16):
+        Lonf = Lonf + LonInc;
+        Lon = str(round(Lonf, 5));
+        lon[o] = Lon
 
-row = 16
-column = 32
+    row = 16
+    column = 32
 
-map = np.array([[0]*row]*column)
+    map = np.array([[0]*row]*column)
 
-x = 0
-y = 0
+    x = 0
+    y = 0
 
-xcoord = 0.0
-ycoord = 0.0
+    xcoord = 0.0
+    ycoord = 0.0
 #print(map)
 
-for x in range(32):
-    xcoord = lat[x]
-    for y in range(16):
-        ycoord = lon[y]
-        land = globe.is_land(xcoord,ycoord)
+    for x in range(32):
+        xcoord = lat[x]
+        for y in range(16):
+            ycoord = lon[y]
+            land = globe.is_land(xcoord,ycoord)
         #print(land)
-        if land == 1:
-            map[x,y] = 1
-        elif land == 0:
-             map[x,y] = 0
+            if land == 1:
+                map[x,y] = 1
+            elif land == 0:
+                map[x,y] = 0
+    return map
 
+def printMap(ma):
+    for i in ma:
+        for j in i:
+            print(j, end=", ")
+        print()
+  
+def main():
+    lama = float(input("Enter maximum latitude: "))
+    lami = float(input("Enter minimum latitude: "))
 
-for i in map:
-    for j in i:
-        print(j, end=", ")
-    print()
+    loma = float(input("Enter maximum longitude: "))
+    lomi = float(input("Enter minimum longitude: "))
+    print("Generating map...")
+    m = genMap(lama, lami, loma, lomi)
+    print("Map generated")
+    print("Printing map")
+    printMap(m)
 
-
-    
-"""index = 0;
-for i in lat:
-    if index == 0:
-        print("{")
-    if index == 31:
-        print(i)
-    else:
-        print(i,end = ", ")
-    index = index + 1
-print("};")
-print()
-print()
-
-index = 0;
-for i in lon:
-    if index == 0:
-        print("{")
-    if index == 15:
-        print(i)
-    else:
-        print(i,end = ", ")
-    index = index + 1    
-print("};")"""
-
-
-
-
+main()
