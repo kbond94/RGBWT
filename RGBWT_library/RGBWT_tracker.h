@@ -18,3 +18,5 @@ class RGBWT_tracker{
     String getMapToTrackName();
 
 }
+
+#endif

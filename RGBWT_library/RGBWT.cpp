@@ -7,8 +7,23 @@ RGBWT::RGBWT() {
 }
 
 void RGBWT::wifi(const char *usr, const char *psd, const char *ssid, void (*function)()){
-  RGBWT_WiFi wifi(usr, psd, ssid, function);
+  wifi.wifi(usr, psd, ssid, function);
 }
 void RGBWT::wifi(const char *ssid, const char *psd, void (*function)()){
-  RGBWT_WiFi wifi(ssid, psd, function);
+  wifi.wifi(ssid, psd, function);
+}
+void RGBWT::http(String a){
+  http.http(a);
+}
+
+void RGBWT::input(int i,int m, int x, int y){
+
+}
+void RGBWT::track(){
+
+}
+void RGBWT::startup(){
+  //run menu
+  //get map
+  //get weather
 }

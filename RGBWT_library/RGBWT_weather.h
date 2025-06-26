@@ -8,11 +8,17 @@ class RGBWT_weather {
 		String typeName = "";
     int idMax;
     int idMin;
-    RGBWT_weather(String name, int idMa, int Mi, String api, String url);
+    uint16_t colour;
+    RGBWT_weather(String name, int max, int min, uint16_t col);
+    String getName();
     int getIdMax();
     int getIdMin();
-    void set IdMax();
-    void set IdMin();
+    uint16_t getColour();
+    void setName(String n)
+    void setIdMax(int ma);
+    void setIdMin(int mo);
+    void setColour(uint16_t co);
+
 	private:
 		
 };
