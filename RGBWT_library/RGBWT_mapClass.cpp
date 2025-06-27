@@ -1,25 +1,16 @@
-#include "RGBWT_map.h"
+#include "RGBWT_mapClass.h"
 #include <Arduino.h>
+#include "colourRef.h"
 
-RGBWT_mapClass(){
+RGBWT_mapClass::RGBWT_mapClass(){
 
-}
-
-RGBWT_mapClass(uint16_t land, uint16_t sea, float lat[], float lon[]){
-  
 }
 
-float RGBWT_mapClass::getMaxLatitude(){
-  return Lat_Max;
-}
-float RGBWT_mapClass::getMinLatitude(){
-  return Lat_Min;
-}
-float RGBWT_mapClass::getMaxLongitude(){
-  return Lon_Max;
-}
-float RGBWT_mapClass::getMinLongitude(){
-  return Lon_min;
+RGBWT_mapClass::RGBWT_mapClass(uint16_t land = Green, uint16_t sea = Blue, float latMA, float latMI, float lonMA, float lonMI, int mm[32][16]){
+  setMapColour(land, sea);
+  setLatCoord(latMA, latMI);
+  setLonCoord(lonMA, lonMI);
+  matrixMap = mm;
 }
 uint16_t RGBWT_mapClass::getLandColour(){
   return landColour;

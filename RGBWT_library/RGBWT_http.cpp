@@ -1,11 +1,11 @@
 #include <Arduino.h>
 #include "RGBWT_http.h"
 
-void RGBWT_http::RGBWT_http(String api){
+RGBWT_http::RGBWT_http(String api){
   API_key = api;
 }
 
-void RGBWT_http::RGBWT_http(){
+RGBWT_http::RGBWT_http(){
 
 }
 
@@ -15,7 +15,7 @@ String RGBWT_http::address(String La, String Lo){
  webAdd = webAdd + "&lon=";
  webAdd = webAdd + Lo;
  webAdd = webAdd + "&appid=";
- webAdd = webAdd + API_Key;
+ webAdd = webAdd + API_key;
 
  return webAdd;
 }

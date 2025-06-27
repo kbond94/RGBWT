@@ -10,9 +10,9 @@ class RGBWT_http{
     String API_key = "";
     int code;
     String address(String La, String Lo);
-    RGBWT_http(api);
-    RGBWT();
+    RGBWT_http(String api);
+    RGBWT_http();
 
-}
+};
 
 #endif

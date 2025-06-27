@@ -4,57 +4,21 @@ Aaron Glover, Ayanfeolu Fataki, Charlotte Mitchell, Skye McConville for original
 William Hickmott for finding new matrix and mapping concept, Thomas Hankinson for pcb and cad tutorials
 Dr Ian Sandall and Dr Waleed Al Nuaimy for support in development of kit*/
 
-
-#include <Adafruit_Protomatter.h>
-#include <WiFi.h>
-#include <HTTPClient.h>
-#include <ArduinoJson.h>
-#include <LiquidCrystal_I2C.h>
-#include <Wire.h>
-#include "esp_wpa2.h"
-#include "libraries\RGBWT_matrixMap.h"
-#include "libraries\RGBWT_setup.h"
 #include "RGBWT.h"
 
 RGBWT track;
 
-//delete at final version
-const char *ssid = "AndroidAPDC99";
-const char *password = "jwhe5704";
-
-//Wifi username and password
-
-/*
-  const char *wifiUsername = "sgkbond@liverpool.ac.uk";
-  const char *wifiPassword = "";
-  define EAP_ANONYMOUS_IDENTITY wifiUsername
-  define EAP_IDENTITY wifiUsername
-  define EAP_PASSWORD wifiPassword
-  define EAP_USERNAME wifiUsername
-  const char *ssid = "eduroam";
-*/
-
 //Api key
 String API_Key = "a3a2c5e3d6b202bcd09a5557e383fb49";
 
-//change to Red, change other colours to capitalise first letter
-uint16_t Red = matrix.color565(red[0],red[1],red[2]);
-uint16_t Green = matrix.color565(green[0],green[1],green[2]);
-uint16_t Blue = matrix.color565(blue[0],blue[1],blue[2]);
-uint16_t White = matrix.color565(50,50,50);
-uint16_t Purple = matrix.color565(50,blue[1],50);
-uint16_t Yellow = matrix.color565(50,50,red[2]);
-uint16_t Grey = matrix.color565(255,140,0);
-uint16_t Off = matrix.color565(0,0,0);
-
 //move colours above land and water options, delete default values
-uint16_t land = Green;
-uint16_t water = Blue;
+/*uint16_t land = Green;
+uint16_t water = Blue;*/
 
 
 //main functions
 void setup() {
-  lcdSetup(); 
+  /*lcdSetup(); 
   Serial.begin(115200);
   pinMode(2,OUTPUT);
   pinMode(35,INPUT);
@@ -78,11 +42,11 @@ void setup() {
     attachInterrupt(digitalPinToInterrupt(39), c, RISING);
     attachInterrupt(digitalPinToInterrupt(4), d, RISING);
     startUp(); 
-  }
+  }*/
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  /*// put your main code here, to run repeatedly:
   if (WiFi.status() == WL_CONNECTED)
   {
     HTTPClient http;
@@ -136,12 +100,12 @@ void loop() {
     drawMap();
     delay(10000);
       //draw map here
-  }
+  }*/
 }
 
 
 //additional functions
-void setMap(int option){
+/*void setMap(int option){
   switch(option) {
     case 1:
       ms = "Default";
@@ -329,7 +293,7 @@ void checkWeather(int id, int a, int b){
   }
   else {
     checkMap(a,-(b-15), land);
-  }*/
+  }*//*
 
 }
 
@@ -561,7 +525,7 @@ int getIdValue(String data){
   //String name = doc["name"];
   /*if (name.length()> 12){
     name = name.substring(0, name.indexOf(' '));
-  }*/
+  }*//*
 
   Serial.println(id);
   //Serial.println(temp);
@@ -569,5 +533,5 @@ int getIdValue(String data){
   
   return id;
 
-}
+}*/
 

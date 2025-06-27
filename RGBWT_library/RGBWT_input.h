@@ -10,14 +10,14 @@ class RGBWT_input {
     int pinC;
     int pinD;
 
-    int button;
+    static int button;
 
     RGBWT_input(int a, int b, int c, int d);
     RGBWT_input();
-    void aPressed();
-    void bPressed();
-    void cPressed();
-    void dPressed();
+    static void aPressed();
+    static void bPressed();
+    static void cPressed();
+    static void dPressed();
 
     void interuptSetup();
 

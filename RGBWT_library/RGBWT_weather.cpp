@@ -1,11 +1,11 @@
 #include "RGBWT_weather.h"
-#include <Arudino.h>
+#include <Arduino.h>
 
 RGBWT_weather::RGBWT_weather(String name, int max, int min, uint16_t col){
-  setTypeName(name)
+  setName(name);
   setIdMax(max);
   setIdMin(min);
-  setColour(co);
+  setColour(col);
 }
 
 String RGBWT_weather::getName(){
@@ -24,7 +24,7 @@ uint16_t RGBWT_weather::getColour(){
   return colour;
 }
 
-void RGBWT_weather::setTypeName(String n){
+void RGBWT_weather::setName(String n){
   typeName = n;
 }
 

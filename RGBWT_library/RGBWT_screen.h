@@ -6,8 +6,8 @@
 
 class RGBWT_screen{
   public:
-    static uint8_t address = 0x27;
-    LiquidCrystal lcd(add,16,2);
+    uint8_t address = 0x27;
+    //LiquidCrystal_I2C lcd(0x27, 16, 2);
     RGBWT_screen();
     void displayTop(String msg[]);
     void displayBottom(String msg[]);

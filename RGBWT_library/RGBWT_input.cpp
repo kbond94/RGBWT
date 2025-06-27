@@ -1,5 +1,5 @@
-#include "RGBWT_input"
-#include <Arudino.h>
+#include "RGBWT_input.h"
+#include <Arduino.h>
 
 RGBWT_input::RGBWT_input(int a, int b, int c, int d){
   pinA = a;
@@ -16,10 +16,10 @@ RGBWT_input::RGBWT_input(){
 
 }
 void RGBWT_input::interuptSetup(){
-  attachInterrupt(digitalPinToInterrupt(pinA), a, RISING);
-  attachInterrupt(digitalPinToInterrupt(pinB), b, RISING);
-  attachInterrupt(digitalPinToInterrupt(pinC), c, RISING);
-  attachInterrupt(digitalPinToInterrupt(pinD), d, RISING);
+  attachInterrupt(digitalPinToInterrupt(pinA), RGBWT_input::aPressed, RISING);
+  attachInterrupt(digitalPinToInterrupt(pinB), RGBWT_input::bPressed, RISING);
+  attachInterrupt(digitalPinToInterrupt(pinC), RGBWT_input::cPressed, RISING);
+  attachInterrupt(digitalPinToInterrupt(pinD), RGBWT_input::dPressed, RISING);
 }
 
 void RGBWT_input::aPressed(){

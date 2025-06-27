@@ -5,12 +5,10 @@
 
 class RGBWT_menu{
   public:
-    String top[4];
-    String bottom[4];
-    RGBWT_menu(String[] t, String[] b);
+    char top[4];
+    char bottom[4];
+    RGBWT_menu(char* t, char* b);
     RGBWT_menu();
-    String[] getTop();
-    String[] getBottom();
     //void set(String[] list, String[] section);
     
 };

@@ -14,7 +14,7 @@ class RGBWT_weather {
     int getIdMax();
     int getIdMin();
     uint16_t getColour();
-    void setName(String n)
+    void setName(String n);
     void setIdMax(int ma);
     void setIdMin(int mo);
     void setColour(uint16_t co);
