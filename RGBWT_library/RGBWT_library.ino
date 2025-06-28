@@ -9,7 +9,7 @@ Dr Ian Sandall and Dr Waleed Al Nuaimy for support in development of kit*/
 RGBWT track;
 
 //Api key
-String API_Key = "a3a2c5e3d6b202bcd09a5557e383fb49";
+//String API_Key = "a3a2c5e3d6b202bcd09a5557e383fb49";
 
 //move colours above land and water options, delete default values
 /*uint16_t land = Green;
