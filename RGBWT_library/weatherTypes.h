@@ -1,6 +1,6 @@
 #ifndef weatherTypes_h
 #define weatherTypes_h
-#include <Arduino.h>
+#include "Arduino.h"
 #include "RGBWT_weather.h"
 #include "colourRef.h"
 

@@ -1,6 +1,6 @@
 #ifndef RGBWT_input_h
 #define RGBWT_input_h
-#include <Arduino.h>
+#include "Arduino.h"
 
 
 class RGBWT_input {

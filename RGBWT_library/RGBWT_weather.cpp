@@ -1,5 +1,5 @@
 #include "RGBWT_weather.h"
-#include <Arduino.h>
+#include "Arduino.h"
 
 RGBWT_weather::RGBWT_weather(String name, int max, int min, uint16_t col){
   setName(name);

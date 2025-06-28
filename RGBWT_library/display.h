@@ -1,3 +1,4 @@
+#include "Arduino.h"
 #include "RGBWT_display.h"
 
 RGBWT_display startUp("Hello There", "Starting up...");

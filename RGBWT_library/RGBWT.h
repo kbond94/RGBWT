@@ -1,6 +1,7 @@
 #ifndef RGBWT_h
 #define RGBWT_h
 #include <Arduino.h>
+#include "Arduino.h"
 #include "RGBWT_WiFi.h"
 #include "RGBWT_http.h"
 #include "RGBWT_input.h"

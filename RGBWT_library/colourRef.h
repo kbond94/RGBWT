@@ -1,3 +1,4 @@
+#include "Arduino.h"
 #include "RGBWT_matrix.h"
 #include <Adafruit_Protomatter.h>
 

@@ -1,12 +1,12 @@
 #include "RGBWT_mapClass.h"
-#include <Arduino.h>
+#include "Arduino.h"
 #include "colourRef.h"
 
 RGBWT_mapClass::RGBWT_mapClass(){
 
 }
 
-RGBWT_mapClass::RGBWT_mapClass(uint16_t land = Green, uint16_t sea = Blue, float latMA, float latMI, float lonMA, float lonMI, int mm[32][16]){
+RGBWT_mapClass::RGBWT_mapClass(uint16_t land, uint16_t sea, float latMA, float latMI, float lonMA, float lonMI, int mm[32][16]){
   setMapColour(land, sea);
   setLatCoord(latMA, latMI);
   setLonCoord(lonMA, lonMI);

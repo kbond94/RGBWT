@@ -1,3 +1,4 @@
+#include "Arduino.h"
 #include "RGBWT_display.h"
 
 RGBWT_display::RGBWT_display(){

@@ -1,6 +1,6 @@
 #ifndef RGBWT_display_h
 #define RGBWT_display_h
-
+#include "Arduino.h"
 class RGBWT_display{
   public:
     String top = "";

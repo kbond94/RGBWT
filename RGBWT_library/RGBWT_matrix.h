@@ -1,17 +1,17 @@
 #ifndef RGBWT_matrix_h
 #define RGBWT_matrix_h
-#include <Arduino.h>
+#include "Arduino.h"
 #include <Adafruit_Protomatter.h>
 
 class RGBWT_matrix {
 	public:
-    uint8_t rgbPins[6]  = {25, 26, 27, 19, 15, 23};
-    uint8_t addrPins[3] = {12, 16, 17};
-    uint8_t clockPin   = 5; // Must be on same port as rgbPins
-    uint8_t latchPin   = 32;
-    uint8_t oePin      = 33;
+    static uint8_t rgbPins[6];
+    static uint8_t addrPins[3];
+    static uint8_t clockPin; // Must be on same port as rgbPins
+    static uint8_t latchPin;
+    static uint8_t oePin;
 
-    Adafruit_Protomatter m();
+    static Adafruit_Protomatter m;
     /*32,          // Width of matrix (or matrix chain) in pixels
     4,           // Bit depth, 1-6
     1, rgbPins,  // # of matrix chains, array of 6 RGB pins for each

@@ -1,6 +1,6 @@
 #ifndef RGBWT_weather_h
 #define RGBWT_weather_h
-#include <Arduino.h>
+#include "Arduino.h"
 
 
 class RGBWT_weather {

@@ -1,7 +1,13 @@
-#include <Arduino.h>
+#include "Arduino.h"
+#include <Adafruit_Protomatter.h>
 #include "RGBWT_matrix.h"
 
 RGBWT_matrix::RGBWT_matrix(){
+  rgbPins[6]  = {25, 26, 27, 19, 15, 23};
+  addrPins[3] = {12, 16, 17};
+  clockPin   = 5; // Must be on same port as rgbPins
+  latchPin   = 32;
+  oePin      = 33;  
   m(
     32,          // Width of matrix (or matrix chain) in pixels
     4,           // Bit depth, 1-6

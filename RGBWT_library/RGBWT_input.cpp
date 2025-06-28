@@ -1,5 +1,5 @@
 #include "RGBWT_input.h"
-#include <Arduino.h>
+#include "Arduino.h"
 
 RGBWT_input::RGBWT_input(int a, int b, int c, int d){
   pinA = a;
