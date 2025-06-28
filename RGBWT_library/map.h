@@ -4,10 +4,15 @@
 #include "RGBWT_mapClass.h"
 #include "libraries/RGBWT_matrixMap.h"
 
-RGBWT_mapClass unitedKingdom(Green, Blue, 57.5, 51, 0.5 -4.5, oldMatrixMap);
-RGBWT_mapClass greatBritain(Green, Blue, 58.673473, 49.953292, 1.798398, -6.793360, defaultMatrixMap);
-RGBWT_mapClass scotland(Green, Blue, 55.37210, 51.45317, -5.46974, -10.08949, scotMatrixMap);
-RGBWT_mapClass ireland(Green, Blue, 59.371243, 54.640675, -1.677607, -7.524203, irishMatrixMap);
-RGBWT_mapClass merseyside(Green, Blue, 53.445960, 53.330666, -2.922317, -3.228324, merseyMatrixMap);
-RGBWT_mapClass currentMap();
+
+class map{
+  public:
+    RGBWT_mapClass unitedKingdom;
+    RGBWT_mapClass greatBritain;
+    RGBWT_mapClass scotland;
+    RGBWT_mapClass ireland;
+    RGBWT_mapClass merseyside;
+    RGBWT_mapClass currentMap;
+    map();
+};
 #endif

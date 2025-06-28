@@ -1,3 +1,5 @@
+#ifndef colourRef_h
+#define colourRef_h
 #include "Arduino.h"
 #include "RGBWT_matrix.h"
 #include <Adafruit_Protomatter.h>
@@ -13,3 +15,5 @@ uint16_t Purple = RGBWT_matrix.color565(50,blue[1],50);
 uint16_t Yellow = RGBWT_matrix.color565(50,50,red[2]);
 uint16_t Grey = RGBWT_matrix.color565(255,140,0);
 uint16_t Off = RGBWT_matrix.color565(0,0,0);
+
+#endif
