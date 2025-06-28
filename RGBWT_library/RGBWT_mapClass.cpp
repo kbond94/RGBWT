@@ -6,7 +6,7 @@ RGBWT_mapClass::RGBWT_mapClass(){
 
 }
 
-RGBWT_mapClass::RGBWT_mapClass(uint16_t land, uint16_t sea, float latMa, float latMi, float lonMa, float lonMi, int mm[][16]){
+RGBWT_mapClass::RGBWT_mapClass(uint16_t land, uint16_t sea, float latMa, float latMi, float lonMa, float lonMi, int mm[32][16]){
   setMapColour(land, sea);
   setCoord(lat, latMa, latMi, 17);
   setCoord(lon, lonMa, lonMi, 33);

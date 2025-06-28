@@ -1,3 +1,6 @@
+#ifndef RGBWT_matrixMap_h
+#define RGBWT_matrixMap_h
+
 int defaultMatrixMap [32][16] = {
   1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 
   1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -172,3 +175,4 @@ int merseyMatrixMap [36][16] = {
   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 
   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 
 }
+#endif

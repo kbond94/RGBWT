@@ -18,7 +18,7 @@ class RGBWT_mapClass {
     uint16_t seaColour;
     int matrixMap[32][16];
     RGBWT_mapClass();
-    RGBWT_mapClass(uint16_t land, uint16_t sea, float latMa, float latMi, float lonMa, float lonMi, int mm[][16]);
+    RGBWT_mapClass(uint16_t land, uint16_t sea, float latMa, float latMi, float lonMa, float lonMi, int mm[32][16]);
     uint16_t getLandColour();
     uint16_t getSeaColour();
     void setMapColour(uint16_t l, uint16_t s);

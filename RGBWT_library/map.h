@@ -1,8 +1,10 @@
 #ifndef map_h
 #define map_h
 #include "Arduino.h"
+#include "RGBWT_matrixMap.h"
 #include "RGBWT_mapClass.h"
-#include "libraries/RGBWT_matrixMap.h"
+//#include "RGBWT_matrixMap.h"
+//#include "RGBWT_matrixMap.h"
 
 
 class map{

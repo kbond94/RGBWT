@@ -2,7 +2,6 @@
 #define RGBWT_matrix_h
 #include "Arduino.h"
 #include <Adafruit_Protomatter.h>
-Adafruit_Protomatter* test_ptr = nullptr;
 
 class RGBWT_matrix {
 	public:
@@ -19,7 +18,7 @@ class RGBWT_matrix {
     Adafruit_Protomatter m;
 
     static int matrixMap [32][16];
-    uint16_t color565(uint8_t r, uint8_t b, uint8_t g); 
+    static uint16_t color565(uint8_t red, uint8_t green, uint8_t blue); 
     RGBWT_matrix();
     void setup();
 
