@@ -6,11 +6,11 @@ RGBWT_mapClass::RGBWT_mapClass(){
 
 }
 
-RGBWT_mapClass::RGBWT_mapClass(uint16_t land, uint16_t sea, float latMA, float latMI, float lonMA, float lonMI, int mm[32][16]){
+RGBWT_mapClass::RGBWT_mapClass(uint16_t land, uint16_t sea, float latMA, float latMI, float lonMA, float lonMI, int mm[][16]){
   setMapColour(land, sea);
   setLatCoord(latMA, latMI);
   setLonCoord(lonMA, lonMI);
-  matrixMap = mm;
+  memcpy(matrixMap, mm, sizeof(matrixMap));
 }
 uint16_t RGBWT_mapClass::getLandColour(){
   return landColour;
