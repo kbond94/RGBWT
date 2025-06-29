@@ -3,18 +3,39 @@
 #include "RGBWT_matrixMap.h"
 #include "RGBWT.h"
 
-RGBWT::RGBWT() {
+RGBWT::RGBWT(): display(), input() {
+  //
+}
+
+void RGBWT::init(){
   colourInit();
   setMapColour();
   weatherInit();
   mapInit();
 }
 
-void RGBWT::input(int i,int m, int x, int y){
-
+void RGBWT::inputInit(int i,int m, int x, int y){
+  //
 }
-void RGBWT::track(){
+int RGBWT::getInput(String ops[4]){
+  int dispOption;
+  int option;
+  while (1){
+    display.displayBottom(ops[dispOption]);
+    dispOption ++;
+    if (dispOption == 4){
+      dispOption = 1;
+    }
+    if (input.button > 0){
+      option = input.button;
+      break;
+    }
+  }
+  return option - 1;
+}
 
+void RGBWT::track(){
+  //
 }
 void RGBWT::startup(){
   //run menu
@@ -22,35 +43,13 @@ void RGBWT::startup(){
   //get weather
 }
 
+//set all struct initialisation
 void RGBWT::weatherInit(){
   setWeather(rain, "Rain", 532, 300, colour.Red);
   setWeather(thunder, "Thunder", 233, 200, colour.Purple);
   setWeather(snow, "Snow", 623, 600, colour.White);
   setWeather(cloud, "Clouds", 805, 801, colour.Grey);
 }
-
-void RGBWT::setWeather(weather w, String n, int ma, int mi, uint16_t c){
-  w.displayName = n;
-  w.idMax = ma;
-  w.idMin = mi;
-  w.displayColour = c;
-}
-
-void RGBWT::setMap(map m, String n, coord la, coord lo, int mm[32][16]){
-  m.displayName = n;
-  m.lat = la;
-  m.lon = lo;
-  memcpy(m.displayMap, mm, sizeof(m.displayMap));
-}
-
-void RGBWT::setCoord(coord c, float mx, float mn, float md){
-  c.max = mx;
-  c.min = mn;
-  c.mod = md;
-  c.diff = c.max - c.min;
-  c.inc = c.diff / c.mod;
-}
-
 void RGBWT::mapInit(){
   coord lat;
   coord lon;
@@ -77,7 +76,15 @@ void RGBWT::mapInit(){
 
 
 }
+void RGBWT::screenInit(){
+  setScreen(startScreen, "Hello There", "Starting up...");
+  setScreen(wifiConnScreen, "Wifi Status:", "");
+  setScreen(statusScreen, "Map: ", "Weather: ");
 
+  setScreen(mapMenuScreen, "Select Map:", "A: GB", "B: UK", "C: Ireland", "D: Scotland");
+  setScreen(weatherMenuScreen, "Select Weather:", "A = Clouds", "B = Thunder", "C = Snow", "D = Rain");
+  setScreen(optionScreen, "Select Option:", "A = Weather", "B = Map", "C = All", "D = Undo");
+}
 void RGBWT::colourInit(){
   colour.Red = getColour(red[0],red[1],red[2]);
   colour.Green = getColour(green[0],green[1],green[2]);
@@ -88,12 +95,75 @@ void RGBWT::colourInit(){
   colour.Grey = getColour(255,140,0);
   colour.Off = getColour(0,0,0);
 }
-
 uint16_t RGBWT::getColour(uint8_t red, uint8_t green, uint8_t blue) {
   return ((red & 0xF8) << 8) | ((green & 0xFC) << 3) | (blue >> 3);
 }
 
+//set individual struct initialization
 void RGBWT::setMapColour(){
   landColour = colour.Green;
   seaColour = colour.Blue;
+}
+void RGBWT::setScreen(screen s, String t, String b){
+  s.top = t;
+  s.Bottom = b;
+}
+void RGBWT::setScreen(screen s, String t, String opOne, String opTwo, String opThree, String opFour){
+  s.top = t;
+  String options[4] = {opOne, opTwo, opThree, opFour};
+  for (int i = 0; i < 4; i++){
+    s.option[i] = options[i];
+  }
+}
+void RGBWT::setMap(map m, String n, coord la, coord lo, int mm[32][16]){
+  m.displayName = n;
+  m.lat = la;
+  m.lon = lo;
+  memcpy(m.displayMap, mm, sizeof(m.displayMap));
+}
+void RGBWT::setCoord(coord c, float mx, float mn, float md){
+  c.max = mx;
+  c.min = mn;
+  c.mod = md;
+  c.diff = c.max - c.min;
+  c.inc = c.diff / c.mod;
+}
+void RGBWT::setWeather(weather w, String n, int ma, int mi, uint16_t c){
+  w.displayName = n;
+  w.idMax = ma;
+  w.idMin = mi;
+  w.displayColour = c;
+}
+
+//menu display and user input functions
+void RGBWT::selectMap(){
+  map mapList[4] = {unitedKingdom, greatBritain, scotland, ireland};
+  display.displayTop(mapMenuScreen.top);
+  currentMap = mapList[getInput(mapMenuScreen.option)];
+  input.button = 0;
+}
+void RGBWT::selectWeather(){
+  weather WeatherList[4] = {rain, thunder, snow, cloud};
+  display.displayTop(weatherMenuScreen.top);
+  currentWeather = WeatherList[getInput(weatherMenuScreen.option)];
+  input.button = 0;
+}
+void RGBWT::selectOption(){
+  display.displayTop(optionScreen.top);
+  int select = getInput(optionScreen.option);
+  switch (select){
+    case 1:
+      selectWeather();
+      break;
+    case 2:
+      selectMap();
+      break;
+    case 3:
+      selectWeather();
+      selectMap();
+      break;
+    case 4:
+      break;
+  }
+
 }
