@@ -1,9 +1,8 @@
 #include "Arduino.h"
-#include "RGBWT_matrix.h"
 #include "RGBWT_matrixMap.h"
 #include "RGBWT.h"
 
-RGBWT::RGBWT(): display(), input() {
+RGBWT::RGBWT(): display(), input(), matrix(bw, bd, cc, rgbPins, ac, addrPins, clockPin, latchPin, oePin, false) {
   //
 }
 
@@ -34,7 +33,7 @@ int RGBWT::getInput(String ops[4]){
   return option - 1;
 }
 
-void RGBWT::track(){
+void RGBWT::weather(){
   //
 }
 void RGBWT::startup(){
@@ -86,14 +85,14 @@ void RGBWT::screenInit(){
   setScreen(optionScreen, "Select Option:", "A = Weather", "B = Map", "C = All", "D = Undo");
 }
 void RGBWT::colourInit(){
-  colour.Red = getColour(red[0],red[1],red[2]);
-  colour.Green = getColour(green[0],green[1],green[2]);
-  colour.Blue = getColour(blue[0],blue[1],blue[2]);
-  colour.White = getColour(50,50,50);
-  colour.Purple = getColour(50,blue[1],50);
-  colour.Yellow = getColour(50,50,red[2]);
-  colour.Grey = getColour(255,140,0);
-  colour.Off = getColour(0,0,0);
+  colour.Red = matrix.color565(red[0],red[1],red[2]);
+  colour.Green = matrix.color565(green[0],green[1],green[2]);
+  colour.Blue = matrix.color565(blue[0],blue[1],blue[2]);
+  colour.White = matrix.color565(50,50,50);
+  colour.Purple = matrix.color565(50,blue[1],50);
+  colour.Yellow = matrix.color565(50,50,red[2]);
+  colour.Grey = matrix.color565(255,140,0);
+  colour.Off = matrix.color565(0,0,0);
 }
 uint16_t RGBWT::getColour(uint8_t red, uint8_t green, uint8_t blue) {
   return ((red & 0xF8) << 8) | ((green & 0xFC) << 3) | (blue >> 3);
@@ -102,7 +101,7 @@ uint16_t RGBWT::getColour(uint8_t red, uint8_t green, uint8_t blue) {
 //set individual struct initialization
 void RGBWT::setMapColour(){
   landColour = colour.Green;
-  seaColour = colour.Blue;
+  waterColour = colour.Blue;
 }
 void RGBWT::setScreen(screen s, String t, String b){
   s.top = t;
@@ -164,6 +163,39 @@ void RGBWT::selectOption(){
       break;
     case 4:
       break;
+  }
+}
+
+
+
+void RGBWT::checkMap(int a, int b, uint16_t lc){
+  uint16_t mc;
+  if (currentMap.displayMap[a][b] == 1){
+    mc = lc;
+  }
+  else{
+    mc = waterColour;
+  }
+  pixelColour = mc;
+}
+
+void RGBWT::drawMap(){
+  for (int x = 0; x < 32; x++){
+    for (int y = 15; y > -1; y--){
+      checkMap(x, -(y-15), landColour);
+      matrix.drawPixel(x, y, pixelColour);
+    }
+  }
+  matrix.show();
+}
+
+
+
+void RGBWT::checkWeather(int id, int a, int b){
+  if (id >= currentWeather.idMin && id < currentWeather.idMax) { 
+    checkMap(a, -(b-15), currentWeather.colour);
+  } else {
+    checkMap(a,-(b-15), land);
   }
 
 }

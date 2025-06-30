@@ -1,16 +1,29 @@
 #ifndef RGBWT_h
 #define RGBWT_h
 #include "Arduino.h"
-//#include "map.h"
 #include "RGBWT_input.h"
-#include "RGBWT_matrix.h"
+//#include "RGBWT_matrix.h"
 #include "RGBWT_screen.h"
+#include <Adafruit_Protomatter.h>
 //#include "RGBWT_matrixMap.h"
 //#include <WiFi.h>
 //#include "esp_wpa2.h"
 
 class RGBWT{
   public:
+    //RGB matrix pin and class
+    uint8_t rgbPins[6]={25, 26, 27, 19, 15, 23};
+    uint8_t addrPins[3]={12, 16, 17};
+    uint8_t clockPin=5; // Must be on same port as rgbPins
+    uint8_t latchPin=32;
+    uint8_t oePin=33;
+    uint16_t bw = 32;
+    uint8_t bd = 4;
+    uint8_t cc = 1;
+    uint8_t ac = 3;
+    Adafruit_Protomatter matrix;
+
+
     uint8_t red[3] = {25, 0, 0};
     uint8_t blue[3] = {0, 0, 25};
     uint8_t green[3] = {0, 25, 0};
@@ -18,6 +31,7 @@ class RGBWT{
     RGBWT_input input;
     RGBWT_screen display;
 
+    //weather struct
     typedef struct weather{
 		  String displayName = "";
       int idMax;
@@ -30,6 +44,7 @@ class RGBWT{
     weather cloud;
     weather currentWeather;
 
+    //coordinate struct used in map struct
     typedef struct coord {
       float max;
       float min;
@@ -38,6 +53,7 @@ class RGBWT{
       float mod;
     } coord;
 
+    //map struct, used in storing map coordinates and map array
     typedef struct map{
       String displayName = "";
       coord lat;
@@ -51,6 +67,7 @@ class RGBWT{
     map merseyside;
     map currentMap;
 
+    //colour struct to hold and call colours used in matrix
     typedef struct colours{
       uint16_t Red;
       uint16_t Green;
@@ -63,14 +80,15 @@ class RGBWT{
     } colours;
     colours colour;
     uint16_t landColour;  
-    uint16_t seaColour;
+    uint16_t waterColour;
+    uint16_t pixelColour;
 
+    //screen struct and variables
     typedef struct screen{
       String top;
       String Bottom;
       String option[4];
     } screen;
-
     screen startScreen;
     screen wifiConnScreen;
     screen statusScreen;
@@ -79,7 +97,7 @@ class RGBWT{
     screen mapMenuScreen;
     screen optionScreen;
 
-    //RGBWT_matrix matrix();
+
     RGBWT();
     void init();
     void wifi(const char *usr, const char *psd, const char *ssid, void (*)());
@@ -87,13 +105,15 @@ class RGBWT{
     void http(String a);
     void inputInit(int i,int m, int x, int y);
     int getInput(String ops[4]);
-    void track();
+
+    void weather();
     void startup();
+
     void weatherInit();
     void mapInit();
     void colourInit();
     void screenInit();
-    uint16_t getColour(uint8_t red, uint8_t green, uint8_t blue);
+
     void setWeather(weather w, String n, int ma, int mi, uint16_t c);
     void setCoord(coord c, float mx, float mn, float md);
     void setMap(map m, String n, coord la, coord lo, int mm[32][16]);
@@ -101,9 +121,13 @@ class RGBWT{
     void setMapColour(uint16_t lc, uint16_t sc);
     void setScreen(screen s, String t, String b);
     void setScreen(screen s, String t, String opOne, String opTwo, String opThree, String opFour);
+    
     void selectWeather();
     void selectMap();
     void selectOption();
+
+    void drawMap();
+    void checkMap(int a, int b, uint16_t lc);
   private:
 };
 

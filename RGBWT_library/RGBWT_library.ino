@@ -79,9 +79,6 @@ void loop() {
 
           //apply json fix!
           String weather_data = http.getString();
-        
-          //String id = weather_data.substring(56, 59);
-          //int id_no = id.toInt();
 		      int id_no = getIdValue(weather_data);
           matrix.drawPixel(col_i, row_i, condColour);
           matrix.show();
