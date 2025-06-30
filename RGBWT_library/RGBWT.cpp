@@ -94,9 +94,6 @@ void RGBWT::colourInit(){
   colour.Grey = matrix.color565(255,140,0);
   colour.Off = matrix.color565(0,0,0);
 }
-uint16_t RGBWT::getColour(uint8_t red, uint8_t green, uint8_t blue) {
-  return ((red & 0xF8) << 8) | ((green & 0xFC) << 3) | (blue >> 3);
-}
 
 //set individual struct initialization
 void RGBWT::setMapColour(){
@@ -127,7 +124,7 @@ void RGBWT::setCoord(coord c, float mx, float mn, float md){
   c.diff = c.max - c.min;
   c.inc = c.diff / c.mod;
 }
-void RGBWT::setWeather(weather w, String n, int ma, int mi, uint16_t c){
+void RGBWT::setWeather(weatherType w, String n, int ma, int mi, uint16_t c){
   w.displayName = n;
   w.idMax = ma;
   w.idMin = mi;
@@ -142,7 +139,7 @@ void RGBWT::selectMap(){
   input.button = 0;
 }
 void RGBWT::selectWeather(){
-  weather WeatherList[4] = {rain, thunder, snow, cloud};
+  weatherType WeatherList[4] = {rain, thunder, snow, cloud};
   display.displayTop(weatherMenuScreen.top);
   currentWeather = WeatherList[getInput(weatherMenuScreen.option)];
   input.button = 0;
@@ -193,9 +190,9 @@ void RGBWT::drawMap(){
 
 void RGBWT::checkWeather(int id, int a, int b){
   if (id >= currentWeather.idMin && id < currentWeather.idMax) { 
-    checkMap(a, -(b-15), currentWeather.colour);
+    checkMap(a, -(b-15), currentWeather.displayColour);
   } else {
-    checkMap(a,-(b-15), land);
+    checkMap(a,-(b-15), landColour);
   }
 
 }

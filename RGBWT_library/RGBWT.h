@@ -32,17 +32,17 @@ class RGBWT{
     RGBWT_screen display;
 
     //weather struct
-    typedef struct weather{
+    typedef struct weatherType{
 		  String displayName = "";
       int idMax;
       int idMin;
       uint16_t displayColour;
-    } weather;
-    weather rain;
-    weather thunder;
-    weather snow;
-    weather cloud;
-    weather currentWeather;
+    } weatherType;
+    weatherType rain;
+    weatherType thunder;
+    weatherType snow;
+    weatherType cloud;
+    weatherType currentWeather;
 
     //coordinate struct used in map struct
     typedef struct coord {
@@ -114,7 +114,7 @@ class RGBWT{
     void colourInit();
     void screenInit();
 
-    void setWeather(weather w, String n, int ma, int mi, uint16_t c);
+    void setWeather(weatherType w, String n, int ma, int mi, uint16_t c);
     void setCoord(coord c, float mx, float mn, float md);
     void setMap(map m, String n, coord la, coord lo, int mm[32][16]);
     void setMapColour();
@@ -128,6 +128,7 @@ class RGBWT{
 
     void drawMap();
     void checkMap(int a, int b, uint16_t lc);
+    void checkWeather(int id, int a, int b);
   private:
 };
 
