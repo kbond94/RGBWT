@@ -2,7 +2,7 @@
 #include "RGBWT_matrixMap.h"
 #include "RGBWT.h"
 
-RGBWT::RGBWT(): display(), input(), matrix(bw, bd, cc, rgbPins, ac, addrPins, clockPin, latchPin, oePin, false) {
+RGBWT::RGBWT(): display(), input(), client(), matrix(bw, bd, cc, rgbPins, ac, addrPins, clockPin, latchPin, oePin, false) {
   //
 }
 
@@ -195,4 +195,41 @@ void RGBWT::checkWeather(int id, int a, int b){
     checkMap(a,-(b-15), landColour);
   }
 
+}
+
+String RGBWT::address(String La, String Lo){
+ String webAdd = "http://api.openweathermap.org/data/2.5/weather?lat=";
+ webAdd = webAdd + La;
+ webAdd = webAdd + "&lon=";
+ webAdd = webAdd + Lo;
+ webAdd = webAdd + "&appid=";
+ webAdd = webAdd + API_key;
+
+ return webAdd;
+}
+
+int RGBWT::getIdValue(String data){
+  StaticJsonDocument<400> doc;
+  StaticJsonDocument<200> filter;
+  filter["weather"][0]["id"]= true;
+
+  DeserializationError error = deserializeJson(doc, data, DeserializationOption::Filter(filter));
+
+  if (error) {
+    Serial.print("deserializeJson() failed: ");
+    Serial.println(error.c_str());
+    return 0;
+  }
+
+  JsonObject weather = doc["weather"][0];
+  JsonObject main = doc["main"];
+
+  int id = weather["id"]; 
+  
+  return id;
+
+}
+
+void RGBWT::setApi(String api){
+  API_key = api;  
 }

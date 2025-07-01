@@ -3,8 +3,11 @@
 #include "Arduino.h"
 #include "RGBWT_input.h"
 //#include "RGBWT_matrix.h"
+#include "RGBWT_http.h"
 #include "RGBWT_screen.h"
 #include <Adafruit_Protomatter.h>
+#include <ArduinoJson.h>
+#include <HTTPClient.h> 
 //#include "RGBWT_matrixMap.h"
 //#include <WiFi.h>
 //#include "esp_wpa2.h"
@@ -30,6 +33,9 @@ class RGBWT{
 
     RGBWT_input input;
     RGBWT_screen display;
+    HTTPClient client;
+
+    String API_key;
 
     //weather struct
     typedef struct weatherType{
@@ -102,7 +108,6 @@ class RGBWT{
     void init();
     void wifi(const char *usr, const char *psd, const char *ssid, void (*)());
     void wifi(const char *ssid, const char *psd, void (*)());
-    void http(String a);
     void inputInit(int i,int m, int x, int y);
     int getInput(String ops[4]);
 
@@ -129,6 +134,10 @@ class RGBWT{
     void drawMap();
     void checkMap(int a, int b, uint16_t lc);
     void checkWeather(int id, int a, int b);
+
+    int getIdValue(String data);
+    void setApi(String api);
+    String address(String La, String Lo);
   private:
 };
 
