@@ -1,7 +1,12 @@
 #include "RGBWT_input.h"
 #include "Arduino.h"
 
-RGBWT_input::RGBWT_input(int a, int b, int c, int d){
+int RGBWT_input::button = 0;
+
+RGBWT_input::RGBWT_input(){
+//
+}
+void RGBWT_input::init(int a, int b, int c, int d){
   pinA = a;
   pinB = b;
   pinC = c;
@@ -11,9 +16,6 @@ RGBWT_input::RGBWT_input(int a, int b, int c, int d){
   pinMode(pinC,INPUT);
   pinMode(pinD,INPUT);
   interuptSetup();
-}
-RGBWT_input::RGBWT_input(){
-
 }
 void RGBWT_input::interuptSetup(){
   attachInterrupt(digitalPinToInterrupt(pinA), RGBWT_input::aPressed, RISING);
@@ -36,4 +38,8 @@ void RGBWT_input::cPressed(){
 
 void RGBWT_input::dPressed(){
   button = 4;
+}
+
+void RGBWT_input::reset(){
+  button = 0;
 }

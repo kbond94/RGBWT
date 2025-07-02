@@ -2,15 +2,11 @@
 #define RGBWT_h
 #include "Arduino.h"
 #include "RGBWT_input.h"
-//#include "RGBWT_matrix.h"
-#include "RGBWT_http.h"
+#include "RGBWT_WiFi.h"
 #include "RGBWT_screen.h"
 #include <Adafruit_Protomatter.h>
 #include <ArduinoJson.h>
 #include <HTTPClient.h> 
-//#include "RGBWT_matrixMap.h"
-//#include <WiFi.h>
-//#include "esp_wpa2.h"
 
 class RGBWT{
   public:
@@ -33,6 +29,7 @@ class RGBWT{
 
     RGBWT_input input;
     RGBWT_screen display;
+    RGBWT_WiFi wifi;
     HTTPClient client;
 
     String API_key;
@@ -103,22 +100,30 @@ class RGBWT{
     screen mapMenuScreen;
     screen optionScreen;
 
+    float lat_f;
+    float lon_f;
+    int col;
+    int col_i;
+    int row;
+    int row_i;
 
     RGBWT();
     void init();
-    void wifi(const char *usr, const char *psd, const char *ssid, void (*)());
-    void wifi(const char *ssid, const char *psd, void (*)());
-    void inputInit(int i,int m, int x, int y);
     int getInput(String ops[4]);
 
     void weather();
-    void startup();
+    void start();
 
+    void inputInit();
+    void inputInit(int i,int m, int x, int y);
+    void matrixInit();
     void weatherInit();
     void mapInit();
     void colourInit();
     void screenInit();
 
+    void setWifi(const char *usr, const char *psd, const char *ssid, void (*)());
+    void setWifi(const char *ssid, const char *psd, void (*)());
     void setWeather(weatherType w, String n, int ma, int mi, uint16_t c);
     void setCoord(coord c, float mx, float mn, float md);
     void setMap(map m, String n, coord la, coord lo, int mm[32][16]);
@@ -137,7 +142,7 @@ class RGBWT{
 
     int getIdValue(String data);
     void setApi(String api);
-    String address(String La, String Lo);
+    String genAddress(String La, String Lo);
   private:
 };
 

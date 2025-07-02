@@ -11,10 +11,12 @@ class RGBWT_WiFi{
     const char *username = "";
     const char *password = ""; 
     const char *ssid = "";
-    RGBWT_WiFi(const char *user, const char *pswd, const char *ssid, void (*)());
-    RGBWT_WiFi(const char *ssid, const char *pswd, void (*)());
+    int accessPointType;
     RGBWT_WiFi();
     void setup(int aptype, void (*)());
+    void init(const char *user, const char *pswd, const char *ssid, void (*)());
+    void init(const char *ssid, const char *pswd, void (*)());
+    int status();
     //void
   private:
 };

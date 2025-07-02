@@ -2,10 +2,12 @@
 #include "RGBWT_WiFi.h"
 #include <WiFi.h>
 #include "esp_wpa2.h"
-//#include <LiquidCrystal_I2C.h>
-//#include "RGBWT_lcd.h"
 
-RGBWT_WiFi::RGBWT_WiFi(const char *user, const char *pswd, const char *apName, void (*function)()) {
+RGBWT_WiFi::RGBWT_WiFi(){
+  //
+}
+
+void RGBWT_WiFi::init(const char *user, const char *pswd, const char *apName, void (*function)()) {
   username = user;
   password = pswd;
   #define EAP_ANONYMOUS_IDENTITY username
@@ -17,14 +19,10 @@ RGBWT_WiFi::RGBWT_WiFi(const char *user, const char *pswd, const char *apName, v
   setup(1, function);
 }
 
-RGBWT_WiFi::RGBWT_WiFi(const char *apName, const char *pswd, void (*function)()){
+void RGBWT_WiFi::init(const char *apName, const char *pswd, void (*function)()){
   ssid = apName;
   password = pswd;
   setup(0, function);
-}
-
-RGBWT_WiFi::RGBWT_WiFi(){
-
 }
 
 void RGBWT_WiFi::setup(int aptype, void (*function)()){
@@ -67,4 +65,11 @@ void RGBWT_WiFi::setup(int aptype, void (*function)()){
 
   delay(1000);
 
+}
+int RGBWT_WiFi::status(){
+  int status;
+  if (WiFi.status() == WL_CONNECTED){
+    status = 1;
+  }
+  return status;
 }

@@ -2,23 +2,29 @@
 #include "RGBWT_matrixMap.h"
 #include "RGBWT.h"
 
-RGBWT::RGBWT(): display(), input(), client(), matrix(bw, bd, cc, rgbPins, ac, addrPins, clockPin, latchPin, oePin, false) {
+RGBWT::RGBWT(): display(), input(), client(), wifi(), matrix(bw, bd, cc, rgbPins, ac, addrPins, clockPin, latchPin, oePin, false) {
   //
 }
 
 void RGBWT::init(){
+  inputInit();
+  matrixInit();
   colourInit();
   setMapColour();
   weatherInit();
   mapInit();
 }
 
+void RGBWT::inputInit(){
+  inputInit(35, 34, 39, 4);
+}
 void RGBWT::inputInit(int i,int m, int x, int y){
-  //
+  input.init(i, m, x, y);
 }
 int RGBWT::getInput(String ops[4]){
   int dispOption;
   int option;
+  input.button = 0;
   while (1){
     display.displayBottom(ops[dispOption]);
     dispOption ++;
@@ -34,15 +40,68 @@ int RGBWT::getInput(String ops[4]){
 }
 
 void RGBWT::weather(){
-  //
+  if (wifi.status() == 1){
+    lat_f = currentMap.lat.max;
+    row = 0;
+    col = 0;
+    col_i = -1;
+    while (lat_f > currentMap.lat.min + currentMap.lat.inc) {
+      col_i++;
+      lat_f = lat_f - currentMap.lat.inc;
+      String Lat = String(lat_f, 5);
+      row_i = 16;
+      lon_f = currentMap.lon.min;
+      while (lon_f <= currentMap.lon.max - currentMap.lon.inc) {
+
+        if (input.button == 4) {
+          //reset = 0;
+          selectOption();
+        }
+
+        row_i--;
+        lon_f = lon_f + currentMap.lon.inc;
+        String Lon = String(lon_f, 5);
+
+        String Add = genAddress(Lat,Lon);
+        client.begin(Add);
+        int httpCode = client.GET();
+        if (httpCode > 0){
+          //apply json fix!
+          String weather_data = client.getString();
+		      int id_no = getIdValue(weather_data);
+          matrix.drawPixel(col_i, row_i, currentWeather.displayColour);
+          matrix.show();
+          checkWeather(id_no, col_i, row_i);
+          delay(100);
+          matrix.drawPixel(col_i, row_i, pixelColour);
+          matrix.show();
+        }
+      }
+    }
+    //matrix.show();
+    delay(5000);
+    client.end();
+    drawMap();
+    delay(10000);
+  }
 }
-void RGBWT::startup(){
+void RGBWT::start(){
+  selectMap();
+  selectWeather();
   //run menu
   //get map
   //get weather
 }
 
 //set all struct initialisation
+void RGBWT::matrixInit(){
+  ProtomatterStatus status = matrix.begin();
+  Serial.print("Protomatter begin() status: ");
+  Serial.println((int)status);
+  if(status != PROTOMATTER_OK) {
+    for(;;);
+  }
+}
 void RGBWT::weatherInit(){
   setWeather(rain, "Rain", 532, 300, colour.Red);
   setWeather(thunder, "Thunder", 233, 200, colour.Purple);
@@ -131,18 +190,25 @@ void RGBWT::setWeather(weatherType w, String n, int ma, int mi, uint16_t c){
   w.displayColour = c;
 }
 
+void RGBWT::setWifi(const char *usr, const char *psd, const char *ssid, void (*function)()){
+  wifi.init(usr, psd, ssid, function);
+}
+void RGBWT::setWifi(const char *ssid, const char *psd, void (*function)()){
+  wifi.init(ssid, psd, function);
+}
+
 //menu display and user input functions
 void RGBWT::selectMap(){
   map mapList[4] = {unitedKingdom, greatBritain, scotland, ireland};
   display.displayTop(mapMenuScreen.top);
   currentMap = mapList[getInput(mapMenuScreen.option)];
-  input.button = 0;
+  input.reset();
 }
 void RGBWT::selectWeather(){
   weatherType WeatherList[4] = {rain, thunder, snow, cloud};
   display.displayTop(weatherMenuScreen.top);
   currentWeather = WeatherList[getInput(weatherMenuScreen.option)];
-  input.button = 0;
+  input.reset();
 }
 void RGBWT::selectOption(){
   display.displayTop(optionScreen.top);
@@ -197,7 +263,7 @@ void RGBWT::checkWeather(int id, int a, int b){
 
 }
 
-String RGBWT::address(String La, String Lo){
+String RGBWT::genAddress(String La, String Lo){
  String webAdd = "http://api.openweathermap.org/data/2.5/weather?lat=";
  webAdd = webAdd + La;
  webAdd = webAdd + "&lon=";

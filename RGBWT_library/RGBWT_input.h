@@ -12,15 +12,16 @@ class RGBWT_input {
 
     static int button;
 
-    RGBWT_input(int a, int b, int c, int d);
+    
     RGBWT_input();
+    void init(int a, int b, int c, int d);
     static void aPressed();
     static void bPressed();
     static void cPressed();
     static void dPressed();
 
     void interuptSetup();
-
+    void reset();
     
 		
 	private:
