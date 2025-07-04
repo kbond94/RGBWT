@@ -5,19 +5,25 @@ William Hickmott for finding new matrix and mapping concept, Thomas Hankinson fo
 Dr Ian Sandall and Dr Waleed Al Nuaimy for support in development of kit*/
 
 #include "RGBWT.h"
+#include <WiFi.h>
 
 RGBWT track;
 
 //Api key
-String api = "a3a2c5e3d6b202bcd09a5557e383fb49";
-const char *ssid = "AndroidAPDC99";
+String api = "";
+
+//wifi ap details
+const char *ssid = "";
 const char *user = "";
-const char *password = "jwhe5704";
+const char *password = "";
+
+void blinky();
 //main functions
 void setup() {
   Serial.begin(115200);
-  track.setWifi(ssid, password, blinky);
+  track.setWifi(ssid, password,  blinky);
   //track.setWifi(user, password, ssid, blinky);
+  pinMode(2,OUTPUT);
   track.setApi(api);
   track.init();
   track.start();

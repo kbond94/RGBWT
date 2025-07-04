@@ -8,11 +8,21 @@ RGBWT::RGBWT(): display(), input(), client(), wifi(), matrix(bw, bd, cc, rgbPins
 
 void RGBWT::init(){
   inputInit();
+  //Serial.println("input initialised");
   matrixInit();
+  //Serial.println("matrix initialised");
+  displayInit();
+  //Serial.println("display initialised");
   colourInit();
+  //Serial.println("colour initialised");
   setMapColour();
+  //Serial.println("map colour initialised");
   weatherInit();
+  //Serial.println("weather initialised");
   mapInit();
+  //Serial.println("map initialised");
+  screenInit();
+  //Serial.println("screens initialised");
 }
 
 void RGBWT::inputInit(){
@@ -22,19 +32,21 @@ void RGBWT::inputInit(int i,int m, int x, int y){
   input.init(i, m, x, y);
 }
 int RGBWT::getInput(String ops[4]){
-  int dispOption;
+  input.reset();
+  int dispOption = 0;
   int option;
-  input.button = 0;
+  //input.button = 0;
   while (1){
-    display.displayBottom(ops[dispOption]);
-    dispOption ++;
-    if (dispOption == 4){
-      dispOption = 1;
-    }
     if (input.button > 0){
       option = input.button;
       break;
     }
+    display.displayBottom(ops[dispOption]);
+    dispOption ++;
+    if (dispOption == 4){
+      dispOption = 0;
+    }
+    delay(1000);
   }
   return option - 1;
 }
@@ -86,8 +98,18 @@ void RGBWT::weather(){
   }
 }
 void RGBWT::start(){
+  //Serial.println("Start called");
+  //display.displayTop(startScreen.top);
+  //Serial.println("display top called");
+  //display.displayBottom(startScreen.bottom);
+  //delay(1000);
+  //Serial.println("display bottom called");
+  //currentMap = greatBritain;
+  //drawMap();
   selectMap();
   selectWeather();
+  drawMap();
+  changeStatus();
   //run menu
   //get map
   //get weather
@@ -101,12 +123,20 @@ void RGBWT::matrixInit(){
   if(status != PROTOMATTER_OK) {
     for(;;);
   }
+  Serial.println("matrix on");
+}
+void RGBWT::displayInit(){
+  display.init();
 }
 void RGBWT::weatherInit(){
   setWeather(rain, "Rain", 532, 300, colour.Red);
   setWeather(thunder, "Thunder", 233, 200, colour.Purple);
   setWeather(snow, "Snow", 623, 600, colour.White);
   setWeather(cloud, "Clouds", 805, 801, colour.Grey);
+  WeatherList[0]  = rain;
+  WeatherList[1] = thunder;
+  WeatherList[2] = snow;
+  WeatherList[3] = cloud;
 }
 void RGBWT::mapInit(){
   coord lat;
@@ -114,11 +144,11 @@ void RGBWT::mapInit(){
 
   setCoord(lat, 57.5, 51, 33);
   setCoord(lon, 0.5, -4.5, 17);
-  setMap(unitedKingdom, "United Kingdom", lat, lon, oldMatrixMap);
+  setMap(unitedKingdom, "UK", lat, lon, oldMatrixMap);
 
   setCoord(lat, 58.673473, 49.953292, 33);
   setCoord(lon, 1.798398, -6.793360, 17);
-  setMap(greatBritain, "Great Britain", lat, lon, defaultMatrixMap);
+  setMap(greatBritain, "GB", lat, lon, defaultMatrixMap);
 
   setCoord(lat, 55.37210, 51.45317, 33);
   setCoord(lon, -5.46974, -10.08949, 17);
@@ -131,7 +161,10 @@ void RGBWT::mapInit(){
   setCoord(lat, 53.445960, 53.330666, 33);
   setCoord(lon, -2.922317, -3.228324, 17);
   setMap(merseyside, "Merseyside", lat, lon, merseyMatrixMap);
-
+  mapList[0] = unitedKingdom;
+  mapList[1] = greatBritain;
+  mapList[2] = scotland;
+  mapList[3] = ireland;
 
 }
 void RGBWT::screenInit(){
@@ -139,7 +172,7 @@ void RGBWT::screenInit(){
   setScreen(wifiConnScreen, "Wifi Status:", "");
   setScreen(statusScreen, "Map: ", "Weather: ");
 
-  setScreen(mapMenuScreen, "Select Map:", "A: GB", "B: UK", "C: Ireland", "D: Scotland");
+  setScreen(mapMenuScreen, "Select Map:", "A = GB", "B = UK", "C = Ireland", "D = Scotland");
   setScreen(weatherMenuScreen, "Select Weather:", "A = Clouds", "B = Thunder", "C = Snow", "D = Rain");
   setScreen(optionScreen, "Select Option:", "A = Weather", "B = Map", "C = All", "D = Undo");
 }
@@ -159,31 +192,34 @@ void RGBWT::setMapColour(){
   landColour = colour.Green;
   waterColour = colour.Blue;
 }
-void RGBWT::setScreen(screen s, String t, String b){
+void RGBWT::setScreen(screen& s, String t, String b){
+  //Serial.println(t);
   s.top = t;
-  s.Bottom = b;
+  Serial.println(s.top);
+  s.bottom = b;
 }
-void RGBWT::setScreen(screen s, String t, String opOne, String opTwo, String opThree, String opFour){
+void RGBWT::setScreen(screen& s, String t, String opOne, String opTwo, String opThree, String opFour){
   s.top = t;
   String options[4] = {opOne, opTwo, opThree, opFour};
   for (int i = 0; i < 4; i++){
     s.option[i] = options[i];
   }
 }
-void RGBWT::setMap(map m, String n, coord la, coord lo, int mm[32][16]){
+void RGBWT::setMap(map& m, String n, coord la, coord lo, int mm[32][16]){
   m.displayName = n;
   m.lat = la;
   m.lon = lo;
   memcpy(m.displayMap, mm, sizeof(m.displayMap));
 }
-void RGBWT::setCoord(coord c, float mx, float mn, float md){
+
+void RGBWT::setCoord(coord& c, float mx, float mn, float md){
   c.max = mx;
   c.min = mn;
   c.mod = md;
   c.diff = c.max - c.min;
   c.inc = c.diff / c.mod;
 }
-void RGBWT::setWeather(weatherType w, String n, int ma, int mi, uint16_t c){
+void RGBWT::setWeather(weatherType& w, String n, int ma, int mi, uint16_t c){
   w.displayName = n;
   w.idMax = ma;
   w.idMin = mi;
@@ -199,40 +235,50 @@ void RGBWT::setWifi(const char *ssid, const char *psd, void (*function)()){
 
 //menu display and user input functions
 void RGBWT::selectMap(){
-  map mapList[4] = {unitedKingdom, greatBritain, scotland, ireland};
+  display.clear();
   display.displayTop(mapMenuScreen.top);
   currentMap = mapList[getInput(mapMenuScreen.option)];
+  Serial.println(currentMap.displayName);
   input.reset();
 }
 void RGBWT::selectWeather(){
-  weatherType WeatherList[4] = {rain, thunder, snow, cloud};
+  display.clear();
   display.displayTop(weatherMenuScreen.top);
   currentWeather = WeatherList[getInput(weatherMenuScreen.option)];
   input.reset();
 }
 void RGBWT::selectOption(){
+  input.reset();
+  bool um = false;
   display.displayTop(optionScreen.top);
   int select = getInput(optionScreen.option);
   switch (select){
     case 1:
       selectWeather();
+      reset(um);
       break;
     case 2:
       selectMap();
+      um = true;
+      reset(um);
       break;
     case 3:
       selectWeather();
       selectMap();
+      um = true;
+      reset(um);
       break;
     case 4:
+      input.reset();
       break;
   }
+  changeStatus();
 }
 
 
 
 void RGBWT::checkMap(int a, int b, uint16_t lc){
-  uint16_t mc;
+  uint16_t mc = waterColour;
   if (currentMap.displayMap[a][b] == 1){
     mc = lc;
   }
@@ -298,4 +344,22 @@ int RGBWT::getIdValue(String data){
 
 void RGBWT::setApi(String api){
   API_key = api;  
+}
+
+void RGBWT::changeStatus(){
+  display.displayTop(statusScreen.top + currentMap.displayName);
+  display.displayBottom(statusScreen.bottom + currentWeather.displayName);
+}
+
+void RGBWT::reset(bool updateMap){
+  if (updateMap == true){
+    drawMap();
+  }
+  lat_f = currentMap.lat.max;
+  row = 0;
+  row_i = 16;
+  col = 0;
+  col_i = -1;
+  lon_f = currentMap.lon.min;
+  changeStatus();
 }

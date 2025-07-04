@@ -46,6 +46,7 @@ class RGBWT{
     weatherType snow;
     weatherType cloud;
     weatherType currentWeather;
+    weatherType WeatherList[4];
 
     //coordinate struct used in map struct
     typedef struct coord {
@@ -68,6 +69,7 @@ class RGBWT{
     map scotland;
     map ireland;
     map merseyside;
+    map mapList[4];
     map currentMap;
 
     //colour struct to hold and call colours used in matrix
@@ -88,8 +90,8 @@ class RGBWT{
 
     //screen struct and variables
     typedef struct screen{
-      String top;
-      String Bottom;
+      String top = " ";
+      String bottom = " ";
       String option[4];
     } screen;
     screen startScreen;
@@ -121,16 +123,17 @@ class RGBWT{
     void mapInit();
     void colourInit();
     void screenInit();
+    void displayInit();
 
     void setWifi(const char *usr, const char *psd, const char *ssid, void (*)());
     void setWifi(const char *ssid, const char *psd, void (*)());
-    void setWeather(weatherType w, String n, int ma, int mi, uint16_t c);
-    void setCoord(coord c, float mx, float mn, float md);
-    void setMap(map m, String n, coord la, coord lo, int mm[32][16]);
+    void setWeather(weatherType& w, String n, int ma, int mi, uint16_t c);
+    void setCoord(coord& c, float mx, float mn, float md);
+    void setMap(map& m, String n, coord la, coord lo, int mm[32][16]);
     void setMapColour();
     void setMapColour(uint16_t lc, uint16_t sc);
-    void setScreen(screen s, String t, String b);
-    void setScreen(screen s, String t, String opOne, String opTwo, String opThree, String opFour);
+    void setScreen(screen& s, String t, String b);
+    void setScreen(screen& s, String t, String opOne, String opTwo, String opThree, String opFour);
     
     void selectWeather();
     void selectMap();
@@ -143,6 +146,8 @@ class RGBWT{
     int getIdValue(String data);
     void setApi(String api);
     String genAddress(String La, String Lo);
+    void changeStatus();
+    void reset(bool updateMap);
   private:
 };
 

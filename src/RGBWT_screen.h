@@ -10,8 +10,9 @@ class RGBWT_screen{
     LiquidCrystal_I2C lcd;
     //LiquidCrystal_I2C lcd(0x27, 16, 2);
     RGBWT_screen();
-    void setup();
+    void init();
     void displayTop(String mt);
+    void clearBottom();
     void displayBottom(String mb);
     void clear();
     int check();

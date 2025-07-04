@@ -3,17 +3,24 @@
 #include <LiquidCrystal_I2C.h>
 #include <Wire.h>
 
-RGBWT_screen::RGBWT_screen(): lcd(address, 16, 2){
+//LiquidCrystal_I2C RGBWT_screen::lcd(0x27,16,2);
+
+RGBWT_screen::RGBWT_screen(): lcd(0x27, 16, 2){
 
 }
 
 void  RGBWT_screen::displayTop(String mt){
   lcd.setCursor(0,0);
-  lcd.print("                ");  
+  lcd.print("                ");
+  //Serial.println(mt);  
   lcd.setCursor(0,0);
   lcd.print(mt);
 }
 
+void RGBWT_screen::clearBottom(){
+  lcd.setCursor(0,1);
+  lcd.print("                ");
+}
 void RGBWT_screen::displayBottom(String mb){
   lcd.setCursor(0,1);
   lcd.print("                ");  
@@ -25,10 +32,12 @@ void RGBWT_screen::clear(){
   lcd.clear();
 }
 
-void RGBWT_screen::setup(){
-  lcd.init();
-  lcd.clear();     
+void RGBWT_screen::init(){
+  lcd.init();     
   lcd.backlight();
+  lcd.clear();
+  delay(1000);
+  //lcd.begin(16, 2);
 }
 
 int RGBWT_screen::check(){
