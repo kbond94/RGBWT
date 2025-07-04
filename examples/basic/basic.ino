@@ -1,11 +1,4 @@
-/*Version 1 RGB LED Weather tracker Written by Keith Bond
-Credits; 
-Aaron Glover, Ayanfeolu Fataki, Charlotte Mitchell, Skye McConville for original led weather tracker, parts of original code is still used in this version
-William Hickmott for finding new matrix and mapping concept, Thomas Hankinson for pcb and cad tutorials
-Dr Ian Sandall and Dr Waleed Al Nuaimy for support in development of kit*/
-
 #include "RGBWT.h"
-#include <WiFi.h>
 
 RGBWT track;
 
